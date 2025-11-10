@@ -17,6 +17,8 @@ import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
 
+import com.mysite.sbb.question.QuestionService;
+
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -26,6 +28,9 @@ class SbbApplicationTests {
     
     @Autowired
     private AnswerRepository answerRepository;
+    
+    @Autowired
+    private QuestionService questionService;
 
     /*
     //질문저장
@@ -113,7 +118,7 @@ class SbbApplicationTests {
     	a.setCreateDate(LocalDateTime.now());
     	this.answerRepository.save(a);
     }*/
-    @Transactional
+    /*@Transactional
     @Test//질문데이터로 조회
     void testJpa10() {
         Optional<Question> oq = this.questionRepository.findById(2);
@@ -124,7 +129,18 @@ class SbbApplicationTests {
 
         assertEquals(1, answerList.size());
         assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+    }*/
+    
+    @Test//페이징
+    void testJpa11() {
+        for (int i = 1; i <= 300; i++) {
+            String subject = String.format("테스트 데이터입니다:[%03d]", i);
+            String content = "내용무";
+            this.questionService.create(subject, content);
+        }
     }
+    
+    
     
     
     
